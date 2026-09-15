@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>FLAGVERSE | World Geography Quiz</title>
+<meta name="description" content="Test your knowledge of world flags, capitals, maps, and borders." />
+<meta name="theme-color" content="#0a0a0b" />
+<link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+<a class="fv-skip-link" href="#main-content">Skip to main content</a>
+<div class="fv-app" id="fv-app">
+
+  <div class="fv-topbar">
+    <div class="fv-wordmark">FLAG<span>VERSE</span></div>
+    <div class="fv-topbar-actions">
+      <button class="fv-icon-btn" id="btn-top-settings" aria-label="Settings"></button>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <main id="main-content">
+  <section class="fv-screen fv-active" id="screen-home">
+    <div class="fv-hero">
+      <h1>World geography quiz</h1>
+      <p>Practice flags, capitals, continents, borders, and maps with short interactive rounds.</p>
+      <div class="fv-hero-actions">
+        <button class="fv-btn fv-btn-primary" id="btn-play-now"></button>
+        <div class="fv-btn-row">
+          <button class="fv-btn fv-btn-secondary" id="btn-choose-mode">Choose Mode</button>
+          <button class="fv-btn fv-btn-secondary" id="btn-explore-map">Explore Map</button>
+        </div>
+      </div>
+      <div class="fv-stat-grid" id="home-stats" aria-label="Your local game progress"></div>
+
+      <div class="fv-credit">
+        <span>Created by Omar Osama</span>
+        <a href="https://omar-osama-ali.github.io/" target="_blank" rel="noopener noreferrer">omar-osama-ali.github.io</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODES -->
+  <section class="fv-screen" id="screen-modes">
+    <div class="fv-back-row">
+      <button class="fv-back-btn" data-nav="home"></button>
+      <h2 class="fv-page-title">Modes</h2>
+    </div>
+    <p style="margin-bottom:14px;">Pick a mode to configure and play.</p>
+    <div id="modes-list"></div>
+  </section>
+
+  <!-- SETUP -->
+  <section class="fv-screen" id="screen-setup">
+    <div class="fv-back-row">
+      <button class="fv-back-btn" data-nav="home"></button>
+      <h2 class="fv-page-title">Game Setup</h2>
+    </div>
+
+    <div class="fv-card">
+      <div class="fv-section-title">Mode</div>
+      <div class="fv-choice-grid" id="setup-mode-grid"></div>
+    </div>
+
+    <div class="fv-card">
+      <div class="fv-section-title">Region</div>
+      <div class="fv-choice-grid fv-cols-3" id="setup-region-grid"></div>
+      <div id="setup-custom-wrap" style="display:none;margin-top:12px;">
+        <div class="fv-section-title">Focus Sets</div>
+        <div class="fv-focus-set-list" id="setup-focus-set-list"></div>
+
+        <div class="fv-section-title" style="margin-top:14px;">Countries (tap to toggle)</div>
+        <div class="fv-custom-toolbar">
+          <span id="setup-custom-count">0 selected</span>
+          <button class="fv-btn fv-btn-ghost fv-btn-sm" id="btn-custom-clear" type="button">Clear selected countries</button>
+        </div>
+        <label class="fv-field-label" for="setup-custom-search">Search countries</label>
+        <input class="fv-player-name-input" id="setup-custom-search" placeholder="Search countries" autocomplete="off" />
+        <div class="fv-choice-grid fv-cols-3" id="setup-custom-grid" style="max-height:220px;overflow:auto;"></div>
+        <div class="fv-save-set-row">
+          <label class="fv-field-label" for="setup-set-name">Saved set name</label>
+          <input class="fv-player-name-input" id="setup-set-name" maxlength="28" placeholder="Name this set" style="margin-bottom:0;" />
+          <button class="fv-btn fv-btn-secondary fv-btn-sm" id="btn-save-focus-set">Save Set</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="fv-card">
+      <div class="fv-section-title">Difficulty</div>
+      <div class="fv-choice-grid" id="setup-difficulty-grid"></div>
+    </div>
+
+    <div class="fv-card">
+      <div class="fv-section-title">Questions</div>
+      <div class="fv-choice-grid fv-cols-3" id="setup-count-grid"></div>
+    </div>
+
+    <div class="fv-card">
+      <div class="fv-toggle-row">
+        <div>
+          <div class="fv-toggle-label">Timer</div>
+          <div class="fv-toggle-sub" id="setup-timer-sub">20 seconds per question</div>
+        </div>
+        <button class="fv-switch" id="setup-timer-toggle" type="button" aria-pressed="false" aria-label="Toggle timer"><span class="fv-switch-knob"></span></button>
+      </div>
+      <div id="setup-timer-duration-wrap" style="margin:4px 0 12px;">
+        <div class="fv-choice-grid fv-cols-3" id="setup-timer-duration-grid"></div>
+      </div>
+      <div class="fv-toggle-row">
+        <div>
+          <div class="fv-toggle-label">Hints</div>
+          <div class="fv-toggle-sub">Allow hints during play</div>
+        </div>
+        <button class="fv-switch" id="setup-hints-toggle" type="button" aria-pressed="false" aria-label="Toggle hints"><span class="fv-switch-knob"></span></button>
+      </div>
+      <div class="fv-toggle-row">
+        <div>
+          <div class="fv-toggle-label">Allow Repeats</div>
+          <div class="fv-toggle-sub">Same country can appear twice</div>
+        </div>
+        <button class="fv-switch" id="setup-repeats-toggle" type="button" aria-pressed="false" aria-label="Toggle repeated countries"><span class="fv-switch-knob"></span></button>
+      </div>
+    </div>
+
+    <div class="fv-card">
+      <div class="fv-section-title">Players (local)</div>
+      <p class="fv-local-note">Player names are used only in this browser and are not submitted to a server.</p>
+      <div class="fv-choice-grid fv-cols-3" id="setup-players-grid"></div>
+      <div id="setup-player-names" style="margin-top:10px;display:none;"></div>
+    </div>
+
+    <button class="fv-btn fv-btn-primary" id="btn-start-game" style="margin-top:6px;">Start Game</button>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="fv-screen" id="screen-quiz">
+    <div class="fv-back-row">
+      <button class="fv-back-btn" id="btn-quit-quiz"></button>
+      <h2 class="fv-page-title" id="quiz-mode-title">Quiz</h2>
+    </div>
+
+    <div class="fv-quiz-topline">
+      <span id="quiz-progress-label">Question 1 / 10</span>
+      <span class="fv-streak-pill" id="quiz-streak" style="display:none;"></span>
+      <span class="fv-timer" id="quiz-timer" style="display:none;"></span>
+    </div>
+    <div class="fv-progress-track"><div class="fv-progress-fill" id="quiz-progress-fill" style="width:0%"></div></div>
+
+    <div class="fv-player-turn-banner" id="quiz-player-banner" style="display:none;"></div>
+
+    <div id="quiz-question-area"></div>
+
+    <div class="fv-hint-row" id="quiz-hint-row" style="display:none;"></div>
+
+    <div class="fv-feedback" id="quiz-feedback">
+      <div class="fv-feedback-title" id="quiz-feedback-title"></div>
+      <div class="fv-feedback-sub" id="quiz-feedback-sub"></div>
+    </div>
+
+    <button class="fv-btn fv-btn-primary" id="btn-next-question" style="margin-top:16px;display:none;">Next</button>
+  </section>
+
+  <!-- RESULT -->
+  <section class="fv-screen" id="screen-result">
+    <div class="fv-back-row">
+      <button class="fv-back-btn" data-nav="home"></button>
+      <h2 class="fv-page-title">Results</h2>
+    </div>
+    <div id="result-content"></div>
+    <div class="fv-btn-row" style="margin-top:18px;">
+      <button class="fv-btn fv-btn-secondary" data-nav="home">Home</button>
+      <button class="fv-btn fv-btn-primary" id="btn-play-again">Play Again</button>
+    </div>
+  </section>
+
+  <!-- EXPLORE MAP -->
+  <section class="fv-screen" id="screen-explore">
+    <div class="fv-back-row">
+      <button class="fv-back-btn" data-nav="home"></button>
+      <h2 class="fv-page-title">Explore Map</h2>
+    </div>
+    <p style="margin-bottom:12px;">Select a country to view its details. Explore mode does not affect your score.</p>
+    <div class="fv-map-wrap" id="explore-map-wrap">
+      <svg id="explore-map-svg"></svg>
+      <div class="fv-map-controls">
+        <button class="fv-map-zoom-btn" id="explore-zoom-in" type="button" aria-label="Zoom in"></button>
+        <button class="fv-map-zoom-btn" id="explore-zoom-out" type="button" aria-label="Zoom out"></button>
+        <button class="fv-map-zoom-btn" id="explore-zoom-reset" type="button" aria-label="Reset map zoom"></button>
+      </div>
+    </div>
+    <div class="fv-card fv-explore-panel" id="explore-panel" style="display:none;"></div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section class="fv-screen" id="screen-progress">
+    <div class="fv-back-row">
+      <button class="fv-back-btn" data-nav="home"></button>
+      <h2 class="fv-page-title">Progress</h2>
+    </div>
+    <div id="progress-content"></div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section class="fv-screen" id="screen-settings">
+    <div class="fv-back-row">
+      <button class="fv-back-btn" data-nav="home"></button>
+      <h2 class="fv-page-title">Settings</h2>
+    </div>
+    <div class="fv-card">
+      <div class="fv-section-title">Default Preferences</div>
+      <p>Your last-used Game Setup is saved automatically and reused for Play Now.</p>
+    </div>
+    <div class="fv-card">
+      <div class="fv-section-title">Data</div>
+      <button class="fv-btn fv-btn-ghost fv-settings-danger" id="btn-reset-progress">Reset Local Progress</button>
+    </div>
+    <div class="fv-card">
+      <div class="fv-section-title">About</div>
+      <p>FLAGVERSE stores game progress and settings locally in this browser. The app does not provide a global leaderboard or an account system.</p>
+      <div class="fv-credit" style="margin-top:14px;">
+        <strong>Project owner</strong>
+        <span>Omar Osama Ali</span>
+        <span>Cairo, Egypt</span>
+        <a href="mailto:omar-osama2011@yahoo.com">omar-osama2011@yahoo.com</a>
+        <a href="https://omar-osama-ali.github.io/" target="_blank" rel="noopener noreferrer">omar-osama-ali.github.io</a>
+      </div>
+    </div>
+    <div class="fv-card">
+      <div class="fv-section-title">Legal and privacy</div>
+      <p class="fv-legal-links"><a href="./privacy.html">Privacy Policy</a><a href="./cookies.html">Cookies Policy</a><a href="./terms.html">Terms of Use</a><a href="./refund.html">Refund Policy</a></p>
+    </div>
+  </section>
+
+  </main>
+
+  <nav class="fv-nav" id="fv-nav" aria-label="Primary navigation">
+    <button class="fv-nav-item" data-nav="home"><span class="fv-nav-icon"></span><span>Home</span></button>
+    <button class="fv-nav-item" data-nav="setup"><span class="fv-nav-icon"></span><span>Play</span></button>
+    <button class="fv-nav-item" data-nav="modes"><span class="fv-nav-icon"></span><span>Modes</span></button>
+    <button class="fv-nav-item" data-nav="explore"><span class="fv-nav-icon"></span><span>Explore</span></button>
+    <button class="fv-nav-item" data-nav="progress"><span class="fv-nav-icon"></span><span>Progress</span></button>
+    <button class="fv-nav-item" data-nav="settings"><span class="fv-nav-icon"></span><span>Settings</span></button>
+  </nav>
+</div>
+
+<script src="./js/icons.js"></script>
+<script src="./js/countries-data.js"></script>
+<script src="./js/storage.js"></script>
+<script src="./js/focus-sets.js"></script>
+<script src="./js/scoring.js"></script>
+<script src="./js/questions.js"></script>
+<script src="./js/map.js"></script>
+<script src="./js/game.js"></script>
+<script src="./js/ui.js"></script>
+<script src="./js/main.js"></script>
+</body>
+</html>
