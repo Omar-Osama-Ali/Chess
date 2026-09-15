@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071416">
+  <meta name="description" content="A polished local 2-player chess game for two people sharing one device.">
+  <title>LOCAL 2-PLAYER CHESS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="app" class="app-shell">
+    <section id="setupScreen" class="screen setup-screen" aria-labelledby="setupTitle">
+      <div class="setup-card">
+        <div class="brand-lockup">
+          <div class="brand-mark" aria-hidden="true">♞</div>
+          <div>
+            <p class="eyebrow">LOCAL 2-PLAYER</p>
+            <h1 id="setupTitle">CHESS</h1>
+          </div>
+        </div>
+        <p class="setup-lede">Two people. One device. Real chess.</p>
+
+        <form id="setupForm" novalidate>
+          <div class="player-fields">
+            <label class="field">
+              <span>White Player</span>
+              <input id="whiteName" name="whiteName" type="text" maxlength="24" autocomplete="off" placeholder="Enter name" required>
+            </label>
+            <label class="field">
+              <span>Black Player</span>
+              <input id="blackName" name="blackName" type="text" maxlength="24" autocomplete="off" placeholder="Enter name" required>
+            </label>
+          </div>
+
+          <div class="settings-grid">
+            <fieldset class="setting-group">
+              <legend>Color</legend>
+              <div class="segmented" role="group" aria-label="Color assignment">
+                <button type="button" class="segment active" data-color="white">White</button>
+                <button type="button" class="segment" data-color="black">Black</button>
+                <button type="button" class="segment" data-color="random">Random</button>
+              </div>
+            </fieldset>
+
+            <fieldset class="setting-group">
+              <legend>Time</legend>
+              <div class="choice-row" id="timeChoices">
+                <button type="button" class="choice active" data-time="0">No Clock</button>
+                <button type="button" class="choice" data-time="60">1 min</button>
+                <button type="button" class="choice" data-time="180">3 min</button>
+                <button type="button" class="choice" data-time="300">5 min</button>
+                <button type="button" class="choice" data-time="600">10 min</button>
+                <button type="button" class="choice" data-time="900">15 min</button>
+                <button type="button" class="choice" data-time="custom">Custom</button>
+              </div>
+              <div id="customTimeWrap" class="custom-time hidden">
+                <label class="field compact"><span>Minutes</span><input id="customMinutes" type="number" min="1" max="180" value="10"></label>
+                <label class="field compact"><span>Increment (sec)</span><input id="increment" type="number" min="0" max="60" value="0"></label>
+              </div>
+              <div id="presetIncrementWrap" class="increment-inline">
+                <label class="field compact"><span>Increment (sec)</span><input id="presetIncrement" type="number" min="0" max="60" value="0"></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="setting-group split-setting">
+              <legend>Auto Flip Board</legend>
+              <label class="switch-row"><input id="autoFlip" type="checkbox" checked><span class="switch" aria-hidden="true"></span><span>Rotate after each legal move</span></label>
+            </fieldset>
+
+            <fieldset class="setting-group split-setting">
+              <legend>Sound</legend>
+              <label class="switch-row"><input id="sound" type="checkbox" checked><span class="switch" aria-hidden="true"></span><span>Subtle game sounds</span></label>
+            </fieldset>
+          </div>
+
+          <p id="setupError" class="form-error" role="alert" hidden></p>
+          <button class="primary-button start-button" type="submit">START GAME</button>
+        </form>
+
+        <footer class="creator-credit">Made by <a href="https://omar-osama-ali.github.io/" target="_blank" rel="noopener noreferrer">Omar Osama</a></footer>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="screen game-screen hidden" aria-label="Chess game">
+      <header class="game-topbar">
+        <div class="game-brand"><span class="brand-mark small" aria-hidden="true">♞</span><span>LOCAL CHESS</span></div>
+        <div class="top-actions">
+          <button id="fullscreenBtn" class="icon-button" type="button" aria-label="Enter fullscreen" title="Fullscreen">⛶</button>
+          <button id="topMenuBtn" class="icon-button" type="button" aria-label="Open menu" title="Menu">☰</button>
+        </div>
+      </header>
+
+      <div class="game-layout">
+        <aside id="blackPlayer" class="player-card player-black" aria-label="Black player information"></aside>
+
+        <section class="board-column" aria-label="Chess board and controls">
+          <div id="statusBanner" class="status-banner" role="status" aria-live="polite"></div>
+          <div id="boardWrap" class="board-wrap">
+            <div id="chessBoard" class="chess-board" role="grid" aria-label="Chess board"></div>
+          </div>
+          <div class="turn-row">
+            <div id="turnIndicator" class="turn-indicator" aria-live="polite"></div>
+          </div>
+          <div class="game-controls">
+            <button id="undoBtn" class="secondary-button" type="button">Undo</button>
+            <button id="newGameBtn" class="secondary-button" type="button">New Game</button>
+            <button id="menuBtn" class="secondary-button" type="button">Menu</button>
+          </div>
+          <details id="historyDetails" class="history-panel">
+            <summary>Move History</summary>
+            <div id="moveHistory" class="move-history" aria-label="Move history"></div>
+          </details>
+        </section>
+
+        <aside id="whitePlayer" class="player-card player-white" aria-label="White player information"></aside>
+      </div>
+
+      <footer class="creator-credit game-credit">Made by <a href="https://omar-osama-ali.github.io/" target="_blank" rel="noopener noreferrer">Omar Osama</a></footer>
+    </section>
+  </main>
+
+  <div id="modalLayer" class="modal-layer hidden" aria-hidden="true"></div>
+  <div id="menuPanel" class="side-panel hidden" aria-hidden="true">
+    <div class="panel-header"><h2>Menu</h2><button id="closeMenuBtn" class="icon-button" type="button" aria-label="Close menu">×</button></div>
+    <div class="panel-actions">
+      <button id="menuUndo" class="panel-button" type="button">Undo</button>
+      <button id="restartBtn" class="panel-button" type="button">Restart</button>
+      <button id="flipBtn" class="panel-button" type="button">Flip Board</button>
+      <button id="soundMenuBtn" class="panel-button" type="button">Sound: ON</button>
+      <button id="themeBtn" class="panel-button" type="button">Board Theme: Classic</button>
+      <button id="claimDrawBtn" class="panel-button hidden" type="button">Claim Draw</button>
+      <button id="resignBtn" class="panel-button danger" type="button">Resign</button>
+      <button id="fullscreenMenuBtn" class="panel-button" type="button">Fullscreen</button>
+      <button id="setupBtn" class="panel-button" type="button">Exit to Setup</button>
+    </div>
+  </div>
+
+  <div id="promotionModal" class="dialog hidden" role="dialog" aria-modal="true" aria-labelledby="promotionTitle">
+    <div class="dialog-card">
+      <h2 id="promotionTitle">Promote Pawn</h2>
+      <p>Choose a piece.</p>
+      <div id="promotionChoices" class="promotion-choices"></div>
+    </div>
+  </div>
+
+  <div id="confirmModal" class="dialog hidden" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="dialog-card">
+      <h2 id="confirmTitle"></h2>
+      <p id="confirmText"></p>
+      <div class="dialog-actions"><button id="confirmCancel" class="secondary-button" type="button">Cancel</button><button id="confirmOk" class="primary-button" type="button">Confirm</button></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
